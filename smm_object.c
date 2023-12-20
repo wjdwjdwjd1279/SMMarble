@@ -21,10 +21,9 @@ static int smmObj_energy[MAX_NODE];
 static int smmObj_noNode = 0;
 
 
-#if 0
 //object generation 
 //(send to main.c)
-void smmObj_genNode(char* name, int type, int credit, int energy);
+void smmObj_genNode(char* name, int type, int credit, int energy)
 {
 	strcpy(smmObj_name[smmObj_noNode], name);
 	smmObj_type[smmObj_noNode]=type;
@@ -32,12 +31,14 @@ void smmObj_genNode(char* name, int type, int credit, int energy);
 	smmObj_energy[smmObj_noNode] = energy;
 }
 
-char* smmObj_name[smmObj_noNode];
+char* smmObj_getNodeName(int node_nr){
+	return smmObj_name[node_nr];
+}
 
 
 int smmObj_genType(int node_nr)
 {
-	return smmObj_type[node_nr];]
+	return smmObj_type[node_nr];
 }
 //member retrieving
 

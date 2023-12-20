@@ -8,6 +8,8 @@
 #ifndef smm_object_h
 #define smm_object_h
 
+#define SMMNODE_TYPE_LECTURE
+
 /* node type :
     lecture,
     restaurant,
