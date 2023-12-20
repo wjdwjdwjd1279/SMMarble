@@ -11,17 +11,34 @@
 
 #define MAX_NODETYPE    7
 #define MAX_GRADE       9
+#define MAX_NODE       100
 
 
+static char smmObj_name[MAX_NODE][MAX_CHARNAME];
+static int smmObj_type[MAX_NODE];
+static int smmObj_credit[MAX_NODE];
+static int smmObj_energy[MAX_NODE];
+static int smmObj_noNode = 0;
 
-//object generation
-void smmObj_genNode(void)
+
+#if 0
+//object generation 
+//(send to main.c)
+void smmObj_genNode(char* name, int type, int credit, int energy);
 {
-    
+	strcpy(smmObj_name[smmObj_noNode], name);
+	smmObj_type[smmObj_noNode]=type;
+	smmObj_credit[smmObj_noNode] = credit;
+	smmObj_energy[smmObj_noNode] = energy;
 }
 
+char* smmObj_name[smmObj_noNode];
 
 
+int smmObj_genType(int node_nr)
+{
+	return smmObj_type[node_nr];]
+}
 //member retrieving
 
 

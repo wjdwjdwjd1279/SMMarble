@@ -58,11 +58,11 @@ int rolldie(int player)
 //action code when a player stays at a node
 void actionNode(int player)
 {
-    switch(type)
+    //switch(void)
     {
         //case lecture:
-        default:
-            break;
+        //default:
+            //break;
     }
 }
 
@@ -93,14 +93,21 @@ int main(int argc, const char * argv[]) {
     }
     
     printf("Reading board component......\n");
-    while () //read a node parameter set
+    while ( fscanf(fp, "%s %i %i %i",name, &type, &credit, &energy) == 4) //read a node parameter set
     {
         //store the parameter set
+        smmObj_genNode(name, type, credit, energy);
+        //(char* name, snnObjType_e objType, int type, int credit, int energy msnnObjGrade_e grade)
+        board_nr++;
     }
     fclose(fp);
     printf("Total number of board nodes : %i\n", board_nr);
     
-    
+    for (int i = 0; i<board_nr; i++){
+    	printf("node %i :%s, %i\n", i, smmObj_getNodeName(i),smmObj_getNodeType(i));
+	}
+  
+    #if 0  
     
     //2. food card config 
     if ((fp = fopen(FOODFILEPATH,"r")) == NULL)
