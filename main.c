@@ -39,7 +39,7 @@ static int player_name[MAX_PLAYER][MAX_CHARNAME];
 
 
 //function prototypes
-#if 0
+
 int isGraduated(void); //check if any player is graduated
 void generatePlayers(int n, int initEnergy); //generate a new player
 void printGrades(int player); //print grade history of the player
@@ -49,7 +49,16 @@ float calcAverageGrade(int player); //calculate average grade of the player
 smmGrade_e takeLecture(int player, char *lectureName, int credit); //take the lecture (insert a grade of the player)
 void* findGrade(int player, char *lectureName); //find the grade from the player's grade history
 void printGrades(int player); //print all the grade history of the player
-#endif
+
+
+void printGrades(int player){
+	int i;
+	void *gradePtr;
+	for (i=0; i<snndb_len(LISTNO_OFFSET_GRADE + player);i++){
+		gradePtr = smmdb_getData(LISTNO_OFFSET_GRADE + player, i);
+		printf("%s : %i\n", smmObj_getNodeName(gradePtr), smmObj_getNodeGrade(gradePtr));
+	}
+}
 
 void printPlayerStatus(void){
 	int i;
@@ -95,7 +104,10 @@ int rolldie(int player) //roll the dice
 //action code when a player stays at a node
 void actionNode(int player)
 {
-	int type = smmObj_getNodeType( cur_player[player].position);
+	void *boardPtr = smmObj_getNodeType( cur_player[player].position);
+	int type = smmObj_getNodeType( boardPtr );
+	char *name = smmObj_getNodeName(boardPtr);
+	void *gradePtr;
 	
     switch(type)
     {

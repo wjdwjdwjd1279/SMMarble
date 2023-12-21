@@ -33,6 +33,21 @@
     C-
 */
 
+typedef enum smmObjGrade{
+	smmObjGrade_Ap =0,
+	smmObjGrade_A0,
+	smmObjGrade_Am,
+	smmObjGrade_Bp,
+	smmObjGrade_B0,
+	smmObjGrade_Bm,
+	smmObjGrade_Cp,
+	smmObjGrade_C0,
+	smmObjGrade_Cm,
+	smmObjGrade_max
+	
+}smmObjGrade_e;
+
+typedef enum smmObjGrade smmGrade_e;
 
 
 //object generation
@@ -45,6 +60,7 @@ int smmObj_getNodeType(int node_nr);
 
 //element to string
 
+char*smmObj_getNodeName(int type);
 
 
 #endif /* smm_object_h */
