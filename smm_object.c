@@ -13,8 +13,22 @@
 #define MAX_GRADE       9
 #define MAX_NODE       100
 
+static char smmNodeName[SMMNODE_TYPE_MAX][MAX_CHARNAME]={
+    "lecture",
+    "restaurant",
+    "laboratory",
+    "home",
+    "experiment",//실험실//
+    "foodChance",
+    "festival"
+};
+
+char* smmObj_getTypeName(int type){
+	return (char*)smmNodeName[type];
+}
+
 struct smmObjet {
-	char name[MAX_CHRNAME];
+	char name[MAX_CHARNAME];
 	int type;
 	int credit;
 	int energy;
@@ -31,22 +45,22 @@ static int smmObj_noNode = 0;
 //(send to main.c)
 void smmObj_genNode(char* name, int type, int credit, int energy)
 {
-	strcpy(smmObj_name[smmObj_noNode], name);
-	smmObj_type[smmObj_noNode]=type;
-	smmObj_credit[smmObj_noNode] = credit;
-	smmObj_energy[smmObj_noNode] = energy;
+	strcpy(smmObj_name[smmObj_noNode].name, name);
+	smmObj_type[smmObj_noNode].type =type;
+	smmObj_credit[smmObj_noNode].credit = credit;
+	smmObj_energy[smmObj_noNode].energy = energy;
 	
 	smmObj_noNode++;
 }
 
 char* smmObj_getNodeName(int node_nr){
-	return smmObj_name[node_nr];
+	return smmObj_name[node_nr].name;
 }
 
 
 int smmObj_genType(int node_nr)
 {
-	return smmObj_type[node_nr];
+	return smmObj_type[node_nr].type;
 }
 //member retrieving
 
