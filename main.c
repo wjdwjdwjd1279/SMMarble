@@ -104,7 +104,7 @@ int rolldie(int player) //roll the dice
 //action code when a player stays at a node
 void actionNode(int player)
 {
-	void *boardPtr = smmObj_getNodeType( cur_player[player].position);
+	void *boardPtr = smmdb_getData(LISTNO_NODE, cur_player[player].position);
 	int type = smmObj_getNodeType( boardPtr );
 	char *name = smmObj_getNodeName(boardPtr);
 	void *gradePtr;
@@ -113,10 +113,30 @@ void actionNode(int player)
     {
         //case lecture:
         case SMMNODE_TYPE_LECTURE:
-        	if
+        {
+        	printf("Are you going to take the lecture %s? (y/n)",name);
+        	char take_lec;
+        	scanf("%c",&take_lec);
+        	
+        	if(take_lec=='y'){ //join the lecture
+        		if (cur_player[player].energy >= smmObj_gerNodeEnergy(boardPtr)){//enough energy to take lecture
+        			
+				}
+				else{//not enough energy to take lecture
+					printf("not enough energy to take lectur %s",name);
+				}
+				
+        	
+        	
+			}
+			else{ // not join the lecture
+			
+			}
+			
+        	
         	cur_player[player].accumCredit += smmObj_getNodeCredit(cur_player[player].position);
         	cur_player[player].energy -= smmObj_getNodeEnergy(cur_player[player].position);
-        	break;
+        }
         default:
             break;
     }
@@ -133,6 +153,9 @@ int main(int argc, const char * argv[]) {
     int type;
     int credit;
     int energy;
+    int i;
+    int initEnergy;
+    int turn=0;
     
     board_nr = 0;
     food_nr = 0;
@@ -175,7 +198,7 @@ int main(int argc, const char * argv[]) {
     }
     
     printf("\n\nReading food card component......\n");
-    while () //read a food parameter set
+    while (fsancf(fp, "%s %i",name, &energy)==2) //read a food parameter set
     {
         //store the parameter set
     }
@@ -192,7 +215,7 @@ int main(int argc, const char * argv[]) {
     }
     
     printf("\n\nReading festival card component......\n");
-    while () //read a festival card string
+    while (fscanf(fp, "%s", name)==1) //read a festival card string
     {
         //store the parameter set
     }
@@ -210,12 +233,12 @@ int main(int argc, const char * argv[]) {
         scanf("%d", &player_nr);
         fflusf(stdin);
     }
-    while (player_nr < 0 || player > MAX_PLAYER);
+    while (player_nr < 0 || player_nr > MAX_PLAYER);
     generatePlayers(player_nr, initEnergy);
     
     
     //3. SM Marble game starts ---------------------------------------------------------------------------------
-    while () //is anybody graduated?
+    while (!isGraduated()) //is anybody graduated?
     {
         int die_result;
         
@@ -223,7 +246,7 @@ int main(int argc, const char * argv[]) {
         printPlayerStatus();
         
         //4-2. die rolling (if not in experiment)
-        die_result = rolldie();
+        die_result = rolldie(turn);
         
         //4-3. go forward
         goForward();
