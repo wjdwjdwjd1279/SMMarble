@@ -13,6 +13,12 @@
 #define MAX_GRADE       9
 #define MAX_NODE       100
 
+struct smmObjet {
+	char name[MAX_CHRNAME];
+	int type;
+	int credit;
+	int energy;
+};
 
 static char smmObj_name[MAX_NODE][MAX_CHARNAME];
 static int smmObj_type[MAX_NODE];
@@ -29,6 +35,8 @@ void smmObj_genNode(char* name, int type, int credit, int energy)
 	smmObj_type[smmObj_noNode]=type;
 	smmObj_credit[smmObj_noNode] = credit;
 	smmObj_energy[smmObj_noNode] = energy;
+	
+	smmObj_noNode++;
 }
 
 char* smmObj_getNodeName(int node_nr){
