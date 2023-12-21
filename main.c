@@ -120,23 +120,48 @@ void actionNode(int player)
         	
         	if(take_lec=='y'){ //join the lecture
         		if (cur_player[player].energy >= smmObj_gerNodeEnergy(boardPtr)){//enough energy to take lecture
-        			
+        			int grade = (smmObjGrade_e)(rand() % smmObjGrade_max); //assign grade randomly
+        			int *gradePtr = smmObj_genObject(name, smmObjType_grade, 0, smmObj_getNodeCredit(boardPtr) ,0, grade);
+					//save the grade					        	
+		        	cur_player[player].accumCredit += smmObj_getNodeCredit(boardPtr);
+		        	cur_player[player].energy -= smmObj_getNodeEnergy(boardPtr);
 				}
 				else{//not enough energy to take lecture
 					printf("not enough energy to take lectur %s",name);
 				}
-				
-        	
-        	
 			}
 			else{ // not join the lecture
-			
+				printf("you didn't take the lecture%s",name);
 			}
+			break;
+		}//lecture end
 			
+        case SMMNODE_TYPE_RESTAURANT:{
+			break;
+		}
+		
+        case SMMNODE_TYPE_LABORATORY:{
+			break;
+		}
+		
+        case SMMNODE_TYPE_HOME:{
+			break;
+		}
+		
+        case SMMNODE_TYPE_EXPERIMENT:{
+			break;
+		}
+		
+        case SMMNODE_TYPE_FOODCHANCE:{
+			break;
+		}
         	
-        	cur_player[player].accumCredit += smmObj_getNodeCredit(cur_player[player].position);
-        	cur_player[player].energy -= smmObj_getNodeEnergy(cur_player[player].position);
-        }
+        case SMMNODE_TYPE_FESTIVAL:{
+			break;
+		}
+				
+
+        
         default:
             break;
     }

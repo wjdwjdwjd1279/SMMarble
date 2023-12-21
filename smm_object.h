@@ -8,7 +8,6 @@
 #ifndef smm_object_h
 #define smm_object_h
 
-#define SMMNODE_TYPE_LECTURE
 
 /* node type :
     lecture,
@@ -30,6 +29,13 @@
 #define SMMNODE_TYPE_MAX	7
 
 
+typedef enum smmObjType{
+	smmObjType_board=0,
+	smmObjType_card,
+	smmObjType_grade
+}smmObjType_e;
+	
+	
 /* grade :
     A+,
     A0,
@@ -64,12 +70,13 @@ void smmObj_genNode(char* name, int type, int credit, int energy);
 
 //member retrieving
 
-char*smmObj_getNodeName(int node_nr);
-int smmObj_getNodeType(int node_nr);
+char*smmObj_getNodeName(void*);
+int smmObj_getNodeType(void*);
+int smmObj_getNodeCredit(void*);
+int smmObj_getNodeEnergy(void*);
+int smmObj_getNodeGrade(void*);
 
 //element to string
-
-char*smmObj_getNodeName(int type);
 
 
 #endif /* smm_object_h */
