@@ -67,7 +67,7 @@ typedef enum smmObjGrade smmGrade_e;
 
 //object generation
 void smmObj_genNode(char* name, int type, int credit, int energy);
-void smmObj_genObject(char* name, smmObjType_e objType, int type, int credit, int energy, smmObjGrade_e grade);
+void* smmObj_genObject(char* name, smmObjType_e objType, int type, int credit, int energy, smmObjGrade_e grade);
 
 //member retrieving
 
