@@ -54,7 +54,7 @@ void printGrades(int player); //print all the grade history of the player
 void printGrades(int player){
 	int i;
 	void *gradePtr;
-	for (i=0; i<snndb_len(LISTNO_OFFSET_GRADE + player);i++){
+	for (i=0; i<smmdb_len(LISTNO_OFFSET_GRADE + player);i++){
 		gradePtr = smmdb_getData(LISTNO_OFFSET_GRADE + player, i);
 		printf("%s : %i\n", smmObj_getNodeName(gradePtr), smmObj_getNodeGrade(gradePtr));
 	}
@@ -97,6 +97,9 @@ int rolldie(int player) //roll the dice
     if (c == 'g')
         printGrades(player);
     
+	int die_result = rand()%6 +1 ;
+	printf("result is %i\n/", die_result);
+	    
     return (rand()%MAX_DIE + 1);
 }
 
@@ -119,9 +122,9 @@ void actionNode(int player)
         	scanf("%c",&take_lec);
         	
         	if(take_lec=='y'){ //join the lecture
-        		if (cur_player[player].energy >= smmObj_gerNodeEnergy(boardPtr)){//enough energy to take lecture
-        			int grade = (smmObjGrade_e)(rand() % smmObjGrade_max); //assign grade randomly
-        			int *gradePtr = smmObj_genObject(name, smmObjType_grade, 0, smmObj_getNodeCredit(boardPtr) ,0, grade);
+        		if (cur_player[player].energy >= smmObj_getNodeEnergy(boardPtr)){//enough energy to take lecture
+        			int grade = (smmObjGrade_e)(rand() % smmObjGrade_max); //generate grade randomly
+        			int gradePtr = smmObj_genObject(name, smmObjType_grade, 0, smmObj_getNodeCredit(boardPtr) ,0, grade);
 					//save the grade					        	
 		        	cur_player[player].accumCredit += smmObj_getNodeCredit(boardPtr);
 		        	cur_player[player].energy -= smmObj_getNodeEnergy(boardPtr);
@@ -131,7 +134,7 @@ void actionNode(int player)
 				}
 			}
 			else{ // not join the lecture
-				printf("you didn't take the lecture%s",name);
+				printf("you dropped the lecture%s",name);
 			}
 			break;
 		}//lecture end
@@ -274,10 +277,10 @@ int main(int argc, const char * argv[]) {
         die_result = rolldie(turn);
         
         //4-3. go forward
-        goForward();
+        goForward(turn, die_result);
 
 		//4-4. take action at the destination node of the board
-        actionNode();
+        actionNode(turn);
         
         //4-5. next turn
         turn = (turn + 1)%player_nr;
