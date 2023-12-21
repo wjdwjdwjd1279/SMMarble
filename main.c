@@ -182,10 +182,22 @@ void actionNode(int player)
 		}
 		
         case SMMNODE_TYPE_FOODCHANCE:{
+			//FILE* foodConfigFile = fopen("marbleFoodConfig.txt","r");
+        	int randFood = rand() % 14; //ranom food number
+        	void *Foodvalue = smmdb_getData(LISTNO_FOODCARD, randFood); //amount of energy that random food have
+        	cur_player[player].energy +=  smmObj_getNodeEnergy(Foodvalue) ;//player get energy
+        	printf("It is foodchance. %s gets %s and it charges you %s energy",cur_player[player].name, smmObj_getNodeName(Foodvalue), smmObj_getNodeEnergy(Foodvalue));
+        
 			break;
 		}
         	
         case SMMNODE_TYPE_FESTIVAL:{
+        	printf("%s is now in festival",cur_player[player].name);
+        	void *randcard = smmdb_getData(LISTNO_FESTCARD,rand()%festival_nr);
+        	printf("Your mission is %s", smmObj_getNodeName(randcard));
+        	printf("did you complete your mission? press any key if you did.\n");
+        	getchar();
+        	
 			break;
 		}
 				
@@ -289,6 +301,7 @@ int main(int argc, const char * argv[]) {
         fflush(stdin);
     }
     while (player_nr < 0 || player_nr > MAX_PLAYER);
+    cur_player = (player_t*)malloc(player_nr*sizeof(player_t));
     generatePlayers(player_nr, initEnergy);
     
     
@@ -313,6 +326,7 @@ int main(int argc, const char * argv[]) {
         turn = (turn + 1)%player_nr;
         
     }
+    free(cur_player);
     
     return 0;
 }

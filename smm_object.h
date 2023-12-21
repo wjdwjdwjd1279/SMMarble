@@ -79,6 +79,6 @@ int smmObj_getNodeGrade(void *obj);
 int smmObj_getTypeName(int type);
 
 //element to string
-
+char* smmObj_getTypeName(int type);
 
 #endif /* smm_object_h */

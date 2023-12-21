@@ -18,20 +18,22 @@ static char smmNodeName[SMMNODE_TYPE_MAX][MAX_CHARNAME]={
     "restaurant",
     "laboratory",
     "home",
-    "experiment",//실험실//
+    "experiment",//실험실로//
     "foodChance",
     "festival"
 };
 
-char* smmObj_getTypeName(int type){
+smmObj_getTypeName(int type){
 	return (char*)smmNodeName[type];
 }
 
-struct smmObjet {
+struct smmObject {
 	char name[MAX_CHARNAME];
 	int type;
 	int credit;
 	int energy;
+	smmObjType_e objType;
+	smmObjGrade_e grade;
 }smmObject_t;
 
 static char smmObj_name[MAX_NODE][MAX_CHARNAME];
