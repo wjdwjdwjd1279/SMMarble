@@ -29,6 +29,7 @@ typedef struct player{
 	char name[MAX_CHARNAME];
 	int accumCredit;
 	int flag_graduate;
+	int success;
 }player_t;
 
 static player_t *cur_player;
@@ -82,8 +83,12 @@ void generatePlayers(int n, int initEnergy){
 		
 		//set energy
 		cur_player[i].energy = initEnergy;
+		
+		//set player's initial information
 		cur_player[i].accumCredit = 0;
 		cur_player[i].flag_graduate = 0;
+		cur_player[i].success=0;
+	
 	}
 }
 
@@ -123,9 +128,10 @@ void actionNode(int player)
         	
         	if(take_lec=='y'){ //join the lecture
         		if (cur_player[player].energy >= smmObj_getNodeEnergy(boardPtr)){//enough energy to take lecture
-        			int grade = (smmObjGrade_e)(rand() % smmObjGrade_max); //generate grade randomly
-        			int gradePtr = smmObj_genObject(name, smmObjType_grade, 0, smmObj_getNodeCredit(boardPtr) ,0, grade);
-					//save the grade					        	
+        			int grade = (rand() % smmObjGrade_max); //generate grade randomly
+        			gradePtr = smmObj_genObject(name, smmObjType_grade, 0, smmObj_getNodeCredit(boardPtr) ,0, grade);
+					//save the grade
+					smmdb_addTail(LISTNO_OFFSET_GRADE + player, gradePtr);					        	
 		        	cur_player[player].accumCredit += smmObj_getNodeCredit(boardPtr);
 		        	cur_player[player].energy -= smmObj_getNodeEnergy(boardPtr);
 				}
@@ -140,18 +146,38 @@ void actionNode(int player)
 		}//lecture end
 			
         case SMMNODE_TYPE_RESTAURANT:{
+        	cur_player[player].energy += smmObj_getNodeEnergy(boardPtr); //getting energy
+        	printf("Here is restaurant. Player %s got %d energy",cur_player[player].name,smmObj_getNodeEnergy(boardPtr);
 			break;
 		}
 		
         case SMMNODE_TYPE_LABORATORY:{
+        	if(cur_player[player].flag_graduate == 1){
+        		printf("Here is Laboratory. roll the dice to exit lab");
+        		int lab_dice = rand()% MAX_DICE +1
+        		printf("The dice value is %i",lab_dice);
+        		if(lab_dice>=3){
+        			printf("experiment success");
+        			cur_player[player].flag_graduate = 0;
+				}
+				else{
+        			printf("experiment fail");
+					cur_player[player].energy -= smmObj_getNodeEnergy(boardPtr);
+				}
+			}
 			break;
 		}
 		
         case SMMNODE_TYPE_HOME:{
+        	cur_player[player].energy += smmObj_getNodeEnergy(boardPtr); //getting energy
+        	printf("Here is Home. Player %s got %d energy",cur_player[player].name,smmObj_getNodeEnergy(boardPtr);
 			break;
 		}
 		
         case SMMNODE_TYPE_EXPERIMENT:{
+        	cur_player[player].flag_graduate = 1;
+        	printf("experiment starts. exit success value is 3);
+        	cur_player[player].position = 8; //move to lab
 			break;
 		}
 		
